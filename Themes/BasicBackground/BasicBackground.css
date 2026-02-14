@@ -129,6 +129,16 @@
 	--channels-default: rgb(var(--textdark_v));
 	--channel-icon: rgb(var(--textdark_v));
 	
+	--interactive-text-active: rgb(var(--textbrightest_v));
+	--interactive-text-hover: rgb(var(--textbrighter_v));
+	--interactive-text-default: rgb(var(--textbright_v));
+	
+	--interactive-icon-active: rgb(var(--textbrightest_v));
+	--interactive-icon-hover: rgb(var(--textbrighter_v));
+	--interactive-icon-default: rgb(var(--textbright_v));
+	
+	--interactive-muted: rgb(var(--textdarker_v));
+	
 	--icon-strong: rgb(var(--textbrightest_v));
 	--icon-default: rgb(var(--textbrighter_v));
 	--icon-subtle: rgb(var(--textbright_v));
