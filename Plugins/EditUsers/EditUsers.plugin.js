@@ -182,14 +182,6 @@ module.exports = (_ => {
 					${BDFDB.dotCNS.bottag + BDFDB.dotCN.emojiold} + span {
 						margin-left: 2px;
 					}
-					${BDFDB.dotCNS.userheaderclickableusername + BDFDB.dotCN.userheadernickname}:has(span),
-					${BDFDB.dotCNS.userheaderclickableusername + BDFDB.dotCN.userheadernicknamewithstyle}:has(span) {
-						text-decoration: unset !important;
-					}
-					${BDFDB.dotCNS.userheaderclickableusername + BDFDB.dotCN.userheadernickname} > span:first-child:hover,
-					${BDFDB.dotCNS.userheaderclickableusername + BDFDB.dotCN.userheadernicknamewithstyle} > span:first-child:hover {
-						text-decoration: underline !important;
-					}
 					${BDFDB.dotCN.message} span[style*="--edited-user-color-gradient"] ${BDFDB.dotCN.messageusername} {
 						background-image: var(--edited-user-color-gradient) !important;
 						color: transparent !important;
@@ -610,15 +602,17 @@ module.exports = (_ => {
 				}
 				else {
 					if (data.color1 || data.tag || data.tagEmoji) {
-						let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {props: [["textClassName", BDFDB.disCN.userheadernicknamewithstyle]]});
-						if (index > -1) children[index] = BDFDB.ReactUtils.createElement("div", {
-							className: BDFDB.DOMUtils.formatClassName(children[index].props.className, children[index].props.textClassName),
-							children: BDFDB.ReactUtils.createElement("span", {
-								className: BDFDB.DOMUtils.formatClassName(!data.color1 && BDFDB.LibraryModules.UserNameFontUtils.getClass(e.instance.props.user)),
-								children: children[index].props.userName
-							})
-						});
-						else [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {props: [["className", BDFDB.disCN.userheadernickname]]});
+						let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {props: [["className", BDFDB.disCN.userheadernicknamenostyles]]});
+						if (index == -1) {
+							[children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {props: [["textClassName", BDFDB.disCN.userheadernickname]]});
+							if (index > -1) children[index] = BDFDB.ReactUtils.createElement("div", {
+								className: BDFDB.DOMUtils.formatClassName(children[index].props.className, children[index].props.textClassName),
+								children: BDFDB.ReactUtils.createElement("span", {
+									className: BDFDB.DOMUtils.formatClassName(!data.color1 && BDFDB.LibraryModules.UserNameFontUtils.getClass(e.instance.props.user)),
+									children: children[index].props.userName
+								})
+							});
+						}
 						if (index > -1) {
 							this.changeUserColor(children[index], e.instance.props.user.id);
 							if (!BDFDB.ArrayUtils.is(children[index].props.children)) children[index].props.children = [children[index].props.children].flat(10);
