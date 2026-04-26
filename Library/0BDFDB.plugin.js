@@ -1453,24 +1453,34 @@ module.exports = (_ => {
 						return color && color.css || color || "";
 					}
 				});
-				const DiscordColors = Internal.DiscordConstants.Colors || {};
-				Internal.DiscordConstants.Colors = new Proxy(DiscordColors, {
+				const ColorsCSSRaw = Internal.DiscordConstants.ColorsCSSRaw || {};
+				Internal.DiscordConstants.Colors = new Proxy(ColorsCSSRaw, {
 					get: function (_, item) {
-						const color = DiscordColors[item] || DiscordColors[item.toLowerCase()] || DiscordColors[item.toUpperCase()];
-						if (color) return color && color.hex || color || "";
+						const color = ColorsCSSRaw[item] || ColorsCSSRaw[item.toLowerCase()] || ColorsCSSRaw[item.toUpperCase()];
+						if (color && color.resolve) {
+							const resolved = color.resolve() || ""
+							return resolved && resolved.hex && resolved.hex() || "";
+						}
 						else {
 							const item2 = item + "_500";
-							const color2 = DiscordColors[item2] || DiscordColors[item2.toLowerCase()] || DiscordColors[item2.toUpperCase()];
-							if (color2) return color2 && color2.hex || color2 || "";
+							const color2 = ColorsCSSRaw[item2] || ColorsCSSRaw[item2.toLowerCase()] || ColorsCSSRaw[item2.toUpperCase()];
+							if (color2) {
+								const resolved = color2.resolve() || ""
+								return resolved && resolved.hex && resolved.hex() || "";
+							}
 							else {
 								const item3 = item.replace(/-/g, "_");
-								const color3 = DiscordColors[item3] || DiscordColors[item3.toLowerCase()] || DiscordColors[item3.toUpperCase()];
-								if (color3) return color3 && color3.hex || color3 || "";
+								const color3 = ColorsCSSRaw[item3] || ColorsCSSRaw[item3.toLowerCase()] || ColorsCSSRaw[item3.toUpperCase()];
+								if (color3) {
+									const resolved = color3.resolve() || ""
+									return resolved && resolved.hex && resolved.hex() || "";
+								}
 								else {
 									const item4 = item.replace(/_/g, "-");
-									const color4 = DiscordColors[item4] || DiscordColors[item4.toLowerCase()] || DiscordColors[item4.toUpperCase()];
-									return color4 && color4.hex || color4 || "";
-							}
+									const color4 = ColorsCSSRaw[item4] || ColorsCSSRaw[item4.toLowerCase()] || ColorsCSSRaw[item4.toUpperCase()];
+									const resolved = color4 && color4.resolve() || ""
+									return resolved && resolved.hex && resolved.hex() || "";
+								}
 							}
 						}
 					}
