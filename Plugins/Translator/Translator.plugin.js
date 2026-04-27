@@ -1465,7 +1465,7 @@ module.exports = (_ => {
 				`;
 
 				const requestData = {
-					model: "deepseek-chat",
+					model: "deepseek-v4-flash",
 					messages: [{
 						role: "system",
 						content: "You are a senior bilingual localization specialist"
